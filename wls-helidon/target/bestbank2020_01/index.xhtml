@@ -1,0 +1,99 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="template.xhtml">
+        <ui:define name="head">
+        
+	</ui:define>
+        <ui:define name="title">
+            <h:outputText value="BestBank Webapp"></h:outputText>
+        </ui:define>
+
+        <ui:define name="header">
+            <div>
+                <h2>BestBank Webapp with CreditScore</h2>
+                <p class="lead">This project shows a basic example of a web application working with JSF and CDI to simulate some functionality of bank system with CreditScore derived from Helidon MicroService.</p>
+            </div>
+        </ui:define>
+
+        <ui:define name="body">
+            <div class="well">
+                <h:form id="form" styleClass="form">
+                    <legend>Account Owners</legend>
+                    
+                    <p:dataTable id="singleDT" var="owner" value="#{accountOwnerBean.accountOwnerList}" 
+                    selectionMode="single" selection="#{accountOwnerBean.selectedAccountOwner}" rowKey="#{owner.id}">
+			            <p:column headerText="IBAN">
+			                <h:outputText value="#{owner.id}"/>
+			            </p:column>
+			
+			            <p:column headerText="First Name">
+			                <h:outputText value="#{owner.firstname}"/>
+			            </p:column>
+			            
+			            <p:column headerText="Last Name">
+			                <h:outputText value="#{owner.lastname}"/>
+			            </p:column>
+			
+			            <p:column headerText="Date of Birth">
+			                <h:outputText value="#{owner.dateofbirth}"/>
+			            </p:column>
+			
+			            <p:column headerText="SSN">
+			                <h:outputText value="#{owner.ssn}"/>
+			            </p:column>
+			            <!--  REMOVE THIS LINE TO ADD VIEW BUTTON --> 
+			            <f:facet name="footer">
+			            	<p:commandButton process="singleDT" update=":form:ownerDetail" icon="pi pi-search" value="View" oncomplete="PF('ownerDialog').show()" />
+			        	</f:facet>
+			        	<!-- REMOVE THIS LINE TO ADD VIEW BUTTON -->
+			        </p:dataTable>
+
+                    <br/>
+					<!--  REMOVE THIS LINE TO ADD DETAIL DIALOG -->
+	                <p:dialog header="Account Owner Info" widgetVar="ownerDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+				        <p:outputPanel id="ownerDetail" style="text-align:center;">
+				            <p:panelGrid  columns="2" rendered="#{not empty accountOwnerBean.selectedAccountOwner}" columnClasses="label,value">
+				                 
+				                 <f:facet name="header">
+				                    <p:graphicImage name="images/person.details.png"/> 
+				                </f:facet>
+				                 
+				                <h:outputText value="IBAN:" />
+				                <h:outputText value="#{accountOwnerBean.selectedAccountOwner.id}" />
+				 
+				                <h:outputText value="First Name:" />
+				                <h:outputText value="#{accountOwnerBean.selectedAccountOwner.firstname}" />
+
+				                <h:outputText value="Last Name:" />
+				                <h:outputText value="#{accountOwnerBean.selectedAccountOwner.lastname}" />
+				                				 
+				                <h:outputText value="Date of Birth:" />
+				                <h:outputText value="#{accountOwnerBean.selectedAccountOwner.dateofbirth}" />
+				             
+				                <h:outputText value="SSN:" />
+				                <h:outputText value="#{accountOwnerBean.selectedAccountOwner.ssn}" />
+				                
+				                <h:outputText value="Credit Score" />
+				                <h:outputText value="#{accountOwnerBean.selectedAccountOwner.score}" style="color:#{(accountOwnerBean.selectedAccountOwner.score lt 600) ? 'Red' : 'Green'}"/>
+				                
+				 		
+				            </p:panelGrid>
+				        </p:outputPanel>
+				    </p:dialog>
+					<!-- REMOVE THIS LINE TO ADD DETAIL DIALOG -->
+                </h:form>
+            </div>
+        </ui:define>
+
+        <ui:define name="footer">   
+            <footer>
+                <p>BestBank Limited</p>
+            </footer>
+        </ui:define>
+    </ui:composition>
+</html>
+
